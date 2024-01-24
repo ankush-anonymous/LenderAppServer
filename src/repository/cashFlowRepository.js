@@ -119,7 +119,7 @@ export const getAllCashFlowEntries = async ({
   }
 };
 
-export const getCashFlowEntryById = async (ID) => {
+export const getEntryById = async (ID) => {
   try {
     const sql = "SELECT * FROM MoneyRecord WHERE ID = ?";
     const [rows] = await pool.query(sql, [ID]);
@@ -148,6 +148,7 @@ export const updateEntryById = async (ID, updatedFields) => {
     }
     return true;
   } catch (error) {
+    console.log(error);
     throw new Error("Error updating entry in the database");
   }
 };
