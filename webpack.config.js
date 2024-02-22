@@ -12,7 +12,9 @@ const buildMode = "production"; //process.env.NODE_ENV === "production" ? "produ
 export default {
     entry: "./src/app.js",
     target: "node",
-    externals: [nodeExternals()],
+    externals: [nodeExternals({
+        allowlist: ['nanoid'], // Bundles specified libraries alone and leaves other node_modules out
+    })],
     /* Uncomment this block if you start using typescript in future
     module: {
         rules: [

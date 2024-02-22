@@ -38,7 +38,7 @@ app.use("/api/v1/MoneyRecord", CashFlowRouter);
 app.use("/api/v1/center", centerDetailsRouter);
 app.use("/api/v1/transaction", transactionLogsRouter);
 
-const port = process.env.PORT || 5000;
+const port = process.env.LISTEN_PORT || 5000;
 
 const start = async () => {
   try {
