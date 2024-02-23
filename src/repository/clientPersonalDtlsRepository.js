@@ -32,7 +32,7 @@ export const createClientPersonalDetails = async (
   SalesExecID
 ) => {
   try {
-    const sql = `INSERT INTO ClientPersonal (
+    const sql = `INSERT INTO clientpersonal (
       centerId, CustomerId, CustomerName, SpouseName, FatherName, MotherName,
       DateOfBirth, Age, Address, ResidenceCustYr, MobileNo1, MobileNo2,
       isTatchedHouse, isRoofTiles, isMetalsheets, isCementSheetsRoof,
@@ -74,6 +74,7 @@ export const createClientPersonalDetails = async (
 
     return result; // Return the ID of the inserted row
   } catch (error) {
+    console.log(error);
     throw new Error("Error creating client personal details in the database");
   }
 };
@@ -83,7 +84,7 @@ export const getAllClientPersonalDetails = async ({
   salesExecID,
 }) => {
   try {
-    let sql = "SELECT * FROM ClientPersonal WHERE 1";
+    let sql = "SELECT * FROM clientpersonal WHERE 1";
     const queryParams = [];
 
     if (MobileNo1) {
@@ -103,6 +104,7 @@ export const getAllClientPersonalDetails = async ({
 
     return { clients: rows, count }; // Return client personal details based on parameters
   } catch (error) {
+    console.log(error);
     throw new Error(
       "Error retrieving client personal details with given parameters from the database"
     );
@@ -122,6 +124,7 @@ export const getClientPersonalById = async (customerId) => {
 
     return clientPersonal; // Return the client personal details
   } catch (error) {
+    console.log(error);
     throw new Error(
       "Error retrieving client personal details from the database"
     );
@@ -138,7 +141,7 @@ export const updateClientPersonalById = async (id, updatedFields) => {
     const fieldValues = fieldEntries.map(([key, value]) => value);
     fieldValues.push(id);
 
-    const updateQuery = `UPDATE ClientPersonal SET ${fieldEntries
+    const updateQuery = `UPDATE clientpersonal SET ${fieldEntries
       .map(([key]) => `${key} = ?`)
       .join(", ")} WHERE CustomerId = ?`;
 
@@ -157,7 +160,7 @@ export const updateClientPersonalById = async (id, updatedFields) => {
 
 export const deleteClientPersonalById = async (customerId) => {
   try {
-    const sql = "DELETE FROM ClientPersonal WHERE CutomerID = ?";
+    const sql = "DELETE FROM clientpersonal WHERE CutomerID = ?";
     const [result] = await pool.query(sql, [customerId]);
 
     if (result.affectedRows === 0) {
@@ -166,6 +169,7 @@ export const deleteClientPersonalById = async (customerId) => {
 
     return true; // Return true indicating successful deletion
   } catch (error) {
+    console.log(error);
     throw new Error("Error deleting client personal details from the database");
   }
 };

@@ -14,7 +14,7 @@ export const createClientHouseHold = async (
   customerId
 ) => {
   try {
-    const sql = `INSERT INTO clientHouseHoldDetails (
+    const sql = `INSERT INTO clienthouseholddetails (
       id,
       Loan,
       Education,
@@ -51,11 +51,12 @@ export const createClientHouseHold = async (
 
 export const getAllClientHouseHold = async () => {
   try {
-    const sql = "SELECT * FROM clientHouseHoldDetails";
+    const sql = "SELECT * FROM clienthouseholddetails";
     const [rows] = await pool.query(sql);
 
     return rows; // Return all client house hold details
   } catch (error) {
+    console.log(error);
     throw new Error(
       "Error retrieving client house hold details from the database"
     );
@@ -64,7 +65,7 @@ export const getAllClientHouseHold = async () => {
 
 export const getClientHouseHoldById = async (id) => {
   try {
-    const sql = "SELECT * FROM clientHouseHoldDetails WHERE id = ?";
+    const sql = "SELECT * FROM clienthouseholddetails WHERE id = ?";
     const [rows] = await pool.query(sql, [id]);
 
     if (rows.length === 0) {
@@ -75,6 +76,7 @@ export const getClientHouseHoldById = async (id) => {
 
     return clientHouseHold; // Return the client house hold details
   } catch (error) {
+    console.log(error);
     throw new Error(
       "Error retrieving client house hold details from the database"
     );
@@ -83,7 +85,7 @@ export const getClientHouseHoldById = async (id) => {
 
 // Import necessary modules and configurations
 
-export const updateClientHouseHoldDetailsById = async (id, updatedFields) => {
+export const updateclienthouseholddetailsById = async (id, updatedFields) => {
   try {
     const fieldEntries = Object.entries(updatedFields);
     const fieldValues = fieldEntries.map(([key, value]) => value);
@@ -110,7 +112,7 @@ export const updateClientHouseHoldDetailsById = async (id, updatedFields) => {
 
 export const deleteClientHouseHoldById = async (id) => {
   try {
-    const sql = "DELETE FROM clientHouseHoldDetails WHERE id = ?";
+    const sql = "DELETE FROM clienthouseholddetails WHERE id = ?";
     const [result] = await pool.query(sql, [id]);
 
     if (result.affectedRows === 0) {
@@ -119,6 +121,7 @@ export const deleteClientHouseHoldById = async (id) => {
 
     return true; // Return true indicating successful deletion
   } catch (error) {
+    console.log(error);
     throw new Error(
       "Error deleting client house hold details from the database"
     );

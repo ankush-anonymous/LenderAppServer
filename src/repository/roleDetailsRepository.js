@@ -3,7 +3,7 @@ import pool from "../../db/connect.js";
 export const createRole = async (roleId, roleTitle, createdOn, createdBy) => {
   try {
     const sql =
-      "INSERT INTO roleDetails (id, RoleTitle, CreatedOn, CreatedBy) VALUES (?, ?, ?, ?)";
+      "INSERT INTO roledetails (id, RoleTitle, CreatedOn, CreatedBy) VALUES (?, ?, ?, ?)";
     const [result] = await pool.query(sql, [
       roleId,
       roleTitle,
@@ -13,24 +13,26 @@ export const createRole = async (roleId, roleTitle, createdOn, createdBy) => {
 
     return result; // Return the ID of the inserted row
   } catch (error) {
+    console.log(error);
     throw new Error("Error creating role in the database");
   }
 };
 
 export const getAllRoles = async () => {
   try {
-    const sql = "SELECT * FROM roleDetails";
+    const sql = "SELECT * FROM roledetails";
     const [rows] = await pool.query(sql);
 
     return rows; // Return all roles
   } catch (error) {
+    console.log(error);
     throw new Error("Error retrieving roles from the database");
   }
 };
 
 export const getRoleById = async (roleId) => {
   try {
-    const sql = "SELECT * FROM roleDetails WHERE id = ?";
+    const sql = "SELECT * FROM roledetails WHERE id = ?";
     const [rows] = await pool.query(sql, [roleId]);
 
     if (rows.length === 0) {
@@ -41,6 +43,7 @@ export const getRoleById = async (roleId) => {
 
     return role; // Return the role data
   } catch (error) {
+    console.log(error);
     throw new Error("Error retrieving role from the database");
   }
 };
@@ -58,7 +61,7 @@ export const updateRoleById = async (roleId, updatedFields) => {
     const fieldValues = fieldEntries.map(([key, value]) => value);
     fieldValues.push(roleId);
 
-    const updateQuery = `UPDATE roleDetails SET ${fieldEntries
+    const updateQuery = `UPDATE roledetails SET ${fieldEntries
       .map(([key]) => `${key} = ?`)
       .join(", ")} WHERE id = ?`;
 
@@ -71,13 +74,14 @@ export const updateRoleById = async (roleId, updatedFields) => {
     const updatedRole = await getRoleById(roleId); // Assuming there's a function to fetch an updated role by its ID
     return updatedRole; // Return the updated role
   } catch (error) {
+    console.log(error);
     throw new Error("Error updating role in the database");
   }
 };
 
 export const deleteRoleById = async (roleId) => {
   try {
-    const sql = "DELETE FROM roleDetails WHERE id = ?";
+    const sql = "DELETE FROM roledetails WHERE id = ?";
     const [result] = await pool.query(sql, [roleId]);
 
     if (result.affectedRows === 0) {
@@ -86,6 +90,7 @@ export const deleteRoleById = async (roleId) => {
 
     return true; // Return true indicating successful deletion
   } catch (error) {
+    console.log(error);
     throw new Error("Error deleting role from the database");
   }
 };

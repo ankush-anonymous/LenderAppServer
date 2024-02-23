@@ -12,7 +12,7 @@ export const createTransactionLog = async (
   modeOfTrans
 ) => {
   try {
-    const sql = `INSERT INTO TransactionLogs (TransId, Date, Amount, TypeOfTrans, InvestorId, CenterId, SalesExecId, ClientId, ModeOfTrans) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    const sql = `INSERT INTO transactionlogs (TransId, Date, Amount, TypeOfTrans, InvestorId, CenterId, SalesExecId, ClientId, ModeOfTrans) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
     const [result] = await pool.query(sql, [
       transId,
       date,
@@ -47,7 +47,7 @@ export const getAllTransactionLogs = async ({
   clientId,
 }) => {
   try {
-    let query = "SELECT * FROM TransactionLogs WHERE 1"; // Initial query
+    let query = "SELECT * FROM transactionlogs WHERE 1"; // Initial query
 
     const queryParams = [];
 
@@ -86,19 +86,21 @@ export const getAllTransactionLogs = async ({
 
     return { transactionLogs: rows, count }; // Return transaction log data and count
   } catch (error) {
+    console.log(error);
     throw new Error("Error retrieving transaction logs from the database");
   }
 };
 
 export const getTransactionLogById = async (transId) => {
   try {
-    const sql = "SELECT * FROM TransactionLogs WHERE TransId = ?";
+    const sql = "SELECT * FROM transactionlogs WHERE TransId = ?";
     const [rows] = await pool.query(sql, [transId]);
     if (rows.length === 0) {
       return null;
     }
     return rows[0];
   } catch (error) {
+    console.log(error);
     throw new Error("Error retrieving transaction log from the database");
   }
 };
@@ -109,7 +111,7 @@ export const updateTransactionLogById = async (transId, updatedFields) => {
     const fieldValues = fieldEntries.map(([key, value]) => value);
     fieldValues.push(transId);
 
-    const updateQuery = `UPDATE TransactionLogs SET ${fieldEntries
+    const updateQuery = `UPDATE transactionlogs SET ${fieldEntries
       .map(([key]) => `${key} = ?`)
       .join(", ")} WHERE TransId = ?`;
     const [result] = await pool.query(updateQuery, fieldValues);
@@ -129,7 +131,7 @@ export const updateTransactionLogById = async (transId, updatedFields) => {
 
 export const deleteTransactionLogById = async (transId) => {
   try {
-    const sql = "DELETE FROM TransactionLogs WHERE TransId = ?";
+    const sql = "DELETE FROM transactionlogs WHERE TransId = ?";
     const [result] = await pool.query(sql, [transId]);
 
     if (result.affectedRows === 0) {
@@ -137,6 +139,7 @@ export const deleteTransactionLogById = async (transId) => {
     }
     return true;
   } catch (error) {
+    console.log(error);
     throw new Error("Error deleting transaction log from the database");
   }
 };

@@ -9,7 +9,7 @@ export const createCenterEntry = async (
   centerIncharge
 ) => {
   try {
-    const sql = `INSERT INTO centerDetails (id, centerCode, centerName, IFSC, TotalAmount,centerIncharge) VALUES (?, ?, ?, ?, ?,?)`;
+    const sql = `INSERT INTO centerdetails (id, centerCode, centerName, IFSC, TotalAmount,centerIncharge) VALUES (?, ?, ?, ?, ?,?)`;
     const [result] = await pool.query(sql, [
       id,
       centerCode,
@@ -20,6 +20,7 @@ export const createCenterEntry = async (
     ]);
     return result;
   } catch (error) {
+    console.log(error);
     throw new Error("Error creating center entry in the database");
   }
 };
@@ -31,7 +32,7 @@ export const getAllCenterEntries = async ({
   TotalAmount,
 }) => {
   try {
-    let sql = "SELECT * FROM centerDetails WHERE 1";
+    let sql = "SELECT * FROM centerdetails WHERE 1";
     const queryParams = [];
 
     if (centerCode) {
@@ -59,6 +60,7 @@ export const getAllCenterEntries = async ({
 
     return { centers: rows, count }; // Return center details based on parameters
   } catch (error) {
+    console.log(error);
     throw new Error(
       "Error retrieving center details with given parameters from the database"
     );
@@ -67,13 +69,14 @@ export const getAllCenterEntries = async ({
 
 export const getCenterEntryById = async (id) => {
   try {
-    const sql = "SELECT * FROM centerDetails WHERE id = ?";
+    const sql = "SELECT * FROM centerdetails WHERE id = ?";
     const [rows] = await pool.query(sql, [id]);
     if (rows.length === 0) {
       return null;
     }
     return rows[0];
   } catch (error) {
+    console.log(error);
     throw new Error("Error retrieving center entry from the database");
   }
 };
@@ -84,7 +87,7 @@ export const updateCenterEntryById = async (id, updatedFields) => {
     const fieldValues = fieldEntries.map(([key, value]) => value);
     fieldValues.push(id);
 
-    const updateQuery = `UPDATE centerDetails SET ${fieldEntries
+    const updateQuery = `UPDATE centerdetails SET ${fieldEntries
       .map(([key]) => `${key} = ?`)
       .join(", ")} WHERE id = ?`;
     const [result] = await pool.query(updateQuery, fieldValues);
@@ -94,13 +97,14 @@ export const updateCenterEntryById = async (id, updatedFields) => {
     }
     return true;
   } catch (error) {
+    console.log(error);
     throw new Error("Error updating center entry in the database");
   }
 };
 
 export const deleteCenterEntryById = async (id) => {
   try {
-    const sql = "DELETE FROM centerDetails WHERE id = ?";
+    const sql = "DELETE FROM centerdetails WHERE id = ?";
     const [result] = await pool.query(sql, [id]);
 
     if (result.affectedRows === 0) {
@@ -108,6 +112,7 @@ export const deleteCenterEntryById = async (id) => {
     }
     return true;
   } catch (error) {
+    console.log(error);
     throw new Error("Error deleting center entry from the database");
   }
 };

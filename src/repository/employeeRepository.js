@@ -8,7 +8,7 @@ export const loginUser = async (phoneNumber, password) => {
   try {
     // Fetch user details by phone number
     const [userRows] = await pool.query(
-      "SELECT * FROM empDetails WHERE Phone = ? LIMIT 1",
+      "SELECT * FROM empdetails WHERE Phone = ? LIMIT 1",
       [phoneNumber]
     );
 
@@ -46,6 +46,8 @@ export const loginUser = async (phoneNumber, password) => {
 
     return { token, role, userId };
   } catch (error) {
+    console.log(error);
+
     throw new Error(`Error logging in: ${error.message}`);
   }
 };
@@ -68,7 +70,7 @@ export const createEmployee = async (
     const hashedPassword = await bcryptjs.hash(password, salt);
 
     const [result] = await pool.query(
-      "INSERT INTO empDetails (id, Name, Phone, EmailAddr, Photo, Address, GovtID, Role, password,centerId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)",
+      "INSERT INTO empdetails (id, Name, Phone, EmailAddr, Photo, Address, GovtID, Role, password,centerId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)",
       [
         generatedId,
         name,
@@ -104,6 +106,7 @@ export const createEmployee = async (
 
     return { generatedId, token }; // Return generatedId and token
   } catch (error) {
+    console.log(error);
     throw new Error("Error creating employee in the database");
   }
 };
@@ -115,7 +118,7 @@ export const getAllEmployees = async ({
   centerId,
 }) => {
   try {
-    let query = "SELECT * FROM empDetails WHERE 1"; // Initial query
+    let query = "SELECT * FROM empdetails WHERE 1"; // Initial query
 
     const queryParams = [];
 
@@ -143,6 +146,8 @@ export const getAllEmployees = async ({
 
     return { employees: rows, count }; // Return employee data and count
   } catch (error) {
+    console.log(error);
+
     throw new Error("Error retrieving employees from the database");
   }
 };
@@ -150,7 +155,7 @@ export const getAllEmployees = async ({
 export const getEmployeeById = async (id) => {
   try {
     const [rows, fields] = await pool.query(
-      "SELECT * FROM empDetails WHERE id = ?",
+      "SELECT * FROM empdetails WHERE id = ?",
       [id]
     );
 
@@ -162,13 +167,15 @@ export const getEmployeeById = async (id) => {
 
     return employee; // Return the employee data
   } catch (error) {
+    console.log(error);
+
     throw new Error("Error retrieving employee from the database");
   }
 };
 
 export const deleteEmployeeById = async (id) => {
   try {
-    const [result] = await pool.query("DELETE FROM empDetails WHERE id = ?", [
+    const [result] = await pool.query("DELETE FROM empdetails WHERE id = ?", [
       id,
     ]);
 
@@ -178,6 +185,8 @@ export const deleteEmployeeById = async (id) => {
 
     return true; // Return true indicating successful deletion
   } catch (error) {
+    console.log(error);
+
     throw new Error("Error deleting employee from the database");
   }
 };
@@ -197,7 +206,7 @@ export const updateEmployeeById = async (id, updatedFields) => {
   if (password) updateFields.password = password;
 
   try {
-    const [result] = await pool.query("UPDATE empDetails SET ? WHERE id = ?", [
+    const [result] = await pool.query("UPDATE empdetails SET ? WHERE id = ?", [
       updateFields,
       id,
     ]);
@@ -210,6 +219,8 @@ export const updateEmployeeById = async (id, updatedFields) => {
     const updatedEmployee = await getEmployeeById(id);
     return updatedEmployee;
   } catch (error) {
+    console.log(error);
+
     throw new Error("Error updating employee in the database");
   }
 };

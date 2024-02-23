@@ -120,6 +120,7 @@ export const getFamilyMemberById = async (id) => {
     }
     return rows[0];
   } catch (error) {
+    console.log(error);
     throw new Error("Error retrieving family member from the database");
   }
 };
@@ -140,6 +141,7 @@ export const updateFamilyMemberById = async (id, updatedFields) => {
     }
     return true;
   } catch (error) {
+    console.log(error);
     throw new Error("Error updating family member in the database");
   }
 };
@@ -154,6 +156,7 @@ export const deleteFamilyMemberById = async (id) => {
     }
     return true;
   } catch (error) {
+    console.log(error);
     throw new Error("Error deleting family member from the database");
   }
 };

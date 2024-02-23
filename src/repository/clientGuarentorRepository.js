@@ -17,7 +17,7 @@ export const createClientGuarantorDetails = async (
   grIsRented = false
 ) => {
   try {
-    const sql = `INSERT INTO ClientGuarantorDetails (
+    const sql = `INSERT INTO clientguarantordetails (
       GuarentorID, CustomerID, GuarantorName, SpouseName, FatherName, MotherName,
       Relation, DateOfBirth, Age, GrMobileNo1, GrMobileNo2, GrAddress,
       GrIsOwned, GrIsRented
@@ -42,17 +42,19 @@ export const createClientGuarantorDetails = async (
 
     return result; // Return the ID of the inserted row
   } catch (error) {
+    console.log(error);
     throw new Error("Error creating client guarantor details in the database");
   }
 };
 
 export const getAllClientGuarantorDetails = async () => {
   try {
-    const sql = "SELECT * FROM ClientGuarantorDetails";
+    const sql = "SELECT * FROM clientguarantordetails";
     const [rows] = await pool.query(sql);
 
     return rows; // Return all client guarantor details
   } catch (error) {
+    console.log(error);
     throw new Error(
       "Error retrieving client guarantor details from the database"
     );
@@ -61,7 +63,7 @@ export const getAllClientGuarantorDetails = async () => {
 
 export const getClientGuarantorById = async (guarantorId) => {
   try {
-    const sql = "SELECT * FROM ClientGuarantorDetails WHERE GuarentorID = ?";
+    const sql = "SELECT * FROM clientguarantordetails WHERE GuarentorID = ?";
     const [rows] = await pool.query(sql, [guarantorId]);
 
     if (rows.length === 0) {
@@ -72,6 +74,7 @@ export const getClientGuarantorById = async (guarantorId) => {
 
     return clientGuarantor; // Return the client guarantor details
   } catch (error) {
+    console.log(error);
     throw new Error(
       "Error retrieving client guarantor details from the database"
     );
@@ -101,7 +104,7 @@ export const updateClientGuarantorById = async (guarantorId, updatedFields) => {
 
 export const deleteClientGuarantorById = async (guarantorId) => {
   try {
-    const sql = "DELETE FROM ClientGuarantorDetails WHERE GuarentorID = ?";
+    const sql = "DELETE FROM clientguarantordetails WHERE GuarentorID = ?";
     const [result] = await pool.query(sql, [guarantorId]);
 
     if (result.affectedRows === 0) {
@@ -110,6 +113,7 @@ export const deleteClientGuarantorById = async (guarantorId) => {
 
     return true; // Return true indicating successful deletion
   } catch (error) {
+    console.log(error);
     throw new Error(
       "Error deleting client guarantor details from the database"
     );

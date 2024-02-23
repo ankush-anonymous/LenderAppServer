@@ -8,7 +8,7 @@ export const createClientBankDetails = async (
   BankName
 ) => {
   try {
-    const sql = `INSERT INTO ClientBankDetails (id, clientID, AccountNo, IFSC, BranchName, BankName) VALUES (?, ?, ?, ?, ?, ?)`;
+    const sql = `INSERT INTO clientbankdetails (id, clientID, AccountNo, IFSC, BranchName, BankName) VALUES (?, ?, ?, ?, ?, ?)`;
     const [result] = await pool.query(sql, [
       id,
       clientID,
@@ -33,23 +33,25 @@ export const createClientBankDetails = async (
 
 export const getAllClientBankDetails = async () => {
   try {
-    const sql = "SELECT * FROM ClientBankDetails";
+    const sql = "SELECT * FROM clientbankdetails";
     const [rows] = await pool.query(sql);
     return rows;
   } catch (error) {
+    console.log(error);
     throw new Error("Error retrieving client bank details from the database");
   }
 };
 
 export const getClientBankDetailsById = async (id) => {
   try {
-    const sql = "SELECT * FROM ClientBankDetails WHERE id = ?";
+    const sql = "SELECT * FROM clientbankdetails WHERE id = ?";
     const [rows] = await pool.query(sql, [id]);
     if (rows.length === 0) {
       return null;
     }
     return rows[0];
   } catch (error) {
+    console.log(error);
     throw new Error("Error retrieving client bank details from the database");
   }
 };
@@ -60,7 +62,7 @@ export const updateClientBankDetailsById = async (id, updatedFields) => {
     const fieldValues = fieldEntries.map(([key, value]) => value);
     fieldValues.push(id);
 
-    const updateQuery = `UPDATE ClientBankDetails SET ${fieldEntries
+    const updateQuery = `UPDATE clientbankdetails SET ${fieldEntries
       .map(([key]) => `${key} = ?`)
       .join(", ")} WHERE id = ?`;
     const [result] = await pool.query(updateQuery, fieldValues);
@@ -84,7 +86,7 @@ export const updateClientBankDetailsByClientId = async (id, updatedFields) => {
     const fieldValues = fieldEntries.map(([key, value]) => value);
     fieldValues.push(id);
 
-    const updateQuery = `UPDATE ClientBankDetails SET ${fieldEntries
+    const updateQuery = `UPDATE clientbankdetails SET ${fieldEntries
       .map(([key]) => `${key} = ?`)
       .join(", ")} WHERE clientID = ?`;
     const [result] = await pool.query(updateQuery, fieldValues);
@@ -104,7 +106,7 @@ export const updateClientBankDetailsByClientId = async (id, updatedFields) => {
 
 export const deleteClientBankDetailsById = async (id) => {
   try {
-    const sql = "DELETE FROM ClientBankDetails WHERE id = ?";
+    const sql = "DELETE FROM clientbankdetails WHERE id = ?";
     const [result] = await pool.query(sql, [id]);
 
     if (result.affectedRows === 0) {
@@ -112,6 +114,7 @@ export const deleteClientBankDetailsById = async (id) => {
     }
     return true;
   } catch (error) {
+    console.log(error);
     throw new Error("Error deleting client bank details from the database");
   }
 };

@@ -17,7 +17,7 @@ export const createClientVerification = async (
   customerId
 ) => {
   try {
-    const sql = `INSERT INTO clientVerificationId (
+    const sql = `INSERT INTO clientverificationid (
       id, GrSmartCard, GrAadharCard, GrPanCard,GrVoterId, GrOthers1, GrOthers2,
       ClSmartCard, ClAadharCard, ClVoterId, ClPanCard, ClOthers1, ClOthers2, customerId
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)`;
@@ -41,6 +41,7 @@ export const createClientVerification = async (
 
     return result; // Return the ID of the inserted row
   } catch (error) {
+    console.log(error);
     throw new Error(
       "Error creating client verification details in the database"
     );
@@ -49,11 +50,12 @@ export const createClientVerification = async (
 
 export const getAllClientVerifications = async () => {
   try {
-    const sql = "SELECT * FROM clientVerificationId";
+    const sql = "SELECT * FROM clientverificationid";
     const [rows] = await pool.query(sql);
 
     return rows; // Return all client verification details
   } catch (error) {
+    console.log(error);
     throw new Error(
       "Error retrieving client verification details from the database"
     );
@@ -120,6 +122,7 @@ export const deleteClientVerificationById = async (id) => {
 
     return true; // Return true indicating successful deletion
   } catch (error) {
+    console.log(error);
     throw new Error(
       "Error deleting client verification details from the database"
     );
