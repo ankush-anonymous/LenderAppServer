@@ -34,7 +34,8 @@ jobs:
         working-directory: dist
 
       - name: Zip the deployment package
-        run: zip -r deploy.zip dist/
+        run: zip -r deploy.zip .
+        working-directory: dist
 
       - name: Deploy to Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v21
@@ -45,7 +46,7 @@ jobs:
           environment_name: LenderApp-STG
           version_label: ${{ github.sha }}
           region: ap-south-1
-          deployment_package: deploy.zip
+          deployment_package: dist/deploy.zip
           wait_for_deployment: false
 
       - name: Clean up
