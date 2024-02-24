@@ -50,5 +50,5 @@ jobs:
           wait_for_deployment: false
 
       - name: Clean up
-        if: always()
-        run: rm dist/deploy.zip
+        run: rm deploy.zip
+        working-directory: dist
