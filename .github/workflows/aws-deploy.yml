@@ -45,7 +45,7 @@ jobs:
           environment_name: LenderApp-STG
           version_label: ${{ github.sha }}
           region: ap-south-1
-          deployment_package: dist/deploy.zip
+          deployment_package: deploy.zip
           wait_for_deployment: false
 
       - name: Clean up
