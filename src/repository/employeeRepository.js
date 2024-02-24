@@ -47,6 +47,7 @@ export const loginUser = async (phoneNumber, password) => {
     return { token, role, userId };
   } catch (error) {
     console.log(error);
+    return error;
 
     throw new Error(`Error logging in: ${error.message}`);
   }
@@ -147,6 +148,7 @@ export const getAllEmployees = async ({
     return { employees: rows, count }; // Return employee data and count
   } catch (error) {
     console.log(error);
+    return error;
 
     throw new Error("Error retrieving employees from the database");
   }

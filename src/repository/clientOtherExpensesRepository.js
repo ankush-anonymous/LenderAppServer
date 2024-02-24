@@ -85,7 +85,7 @@ export const getClientHouseHoldById = async (id) => {
 
 // Import necessary modules and configurations
 
-export const updateclienthouseholddetailsById = async (id, updatedFields) => {
+export const updateClientHouseHoldDetailsById = async (id, updatedFields) => {
   try {
     const fieldEntries = Object.entries(updatedFields);
     const fieldValues = fieldEntries.map(([key, value]) => value);
