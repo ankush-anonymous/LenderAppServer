@@ -23,6 +23,9 @@ jobs:
       - name: Build
         run: npm run build
 
+      # - name: Copy package.json to build directory
+      #   run: cp package.json dist/
+
       - name: Copy package.json to build directory
         run: cp Procfile dist/
 
@@ -35,18 +38,18 @@ jobs:
       - name: Zip the deployment package
         run: zip -r deploy.zip .
 
-      -  name: Deploy to Elastic Beanstalk
-      uses: einaregilsson/beanstalk-deploy@v21
-      with:
-        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        application_name: LenderApp
-        environment_name: LenderApp-STG
-        version_label: ${{ github.sha }}
-        region: ap-south-1
-        deployment_package: deploy.zip
-        wait_for_deployment: false
+      - name: Deploy to Elastic Beanstalk
+        uses: einaregilsson/beanstalk-deploy@v21
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: LenderApp
+          environment_name: LenderApp-STG
+          version_label: ${{ github.sha }}
+          region: ap-south-1
+          deployment_package: deploy.zip
+          wait_for_deployment: false
 
-    - name: Clean up
-      if: always()
-      run: rm deploy.zip
+      - name: Clean up
+        if: always()
+        run: rm deploy.zip
